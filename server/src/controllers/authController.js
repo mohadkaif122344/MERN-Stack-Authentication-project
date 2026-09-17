@@ -41,10 +41,10 @@ export const register = async (req, res) => {
     });
 
     //Sending welcome email
-    // await sendWelcomeEmail(email).catch(console.error);
+    sendWelcomeEmail(email).catch(console.error);
 
     const msg = "User registered successfully";
-    await createAutoNotification(user._id, msg);
+     createAutoNotification(user._id, msg);
     return res.status(201).json({ success: true, message: msg });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
