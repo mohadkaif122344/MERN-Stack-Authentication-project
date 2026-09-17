@@ -227,6 +227,7 @@ export const verifyEmail = async (req, res) => {
 //check if user is authenticated
 export const isAuthenticated = async (_, res) => {
   try {
+    res.set("Cache-Control", "no-store");
     return res.status(200).json({
       success: true,
       message: "User is authenticated",
