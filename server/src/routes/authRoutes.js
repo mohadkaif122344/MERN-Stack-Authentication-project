@@ -14,9 +14,9 @@ import useAuthMiddleware from "../middleware/useAuthMiddleware.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/register",useAuthMiddleware, register);
+authRouter.post("/register",register);
 
-authRouter.post("/login",useAuthMiddleware, login);
+authRouter.post("/login", login);
 
 authRouter.post("/logout",useAuthMiddleware, logout);
 
