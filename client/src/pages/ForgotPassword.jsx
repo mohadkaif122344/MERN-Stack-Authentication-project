@@ -27,7 +27,7 @@ const ForgotPassword = () => {
       const { data } = await axios.post(
         `${backendUrl}/api/auth/send-forgot-otp`,
         { email },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       toast.success(data.message);
       setIsEmailSent(true);
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
       const { data } = await axios.post(
         `${backendUrl}/api/auth/forgot-password`,
         { email, otp, newPassword },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       toast.success(data.message);
       navigate("/login");
@@ -61,7 +61,6 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-gradient-to-br dark:from-gray-950 dark:to-gray-900">
-
       {!isEmailSent && (
         <form
           onSubmit={onSubmitEmail}
@@ -125,9 +124,7 @@ const ForgotPassword = () => {
             inputMode="numeric"
             maxLength={6}
             value={otp}
-            onChange={(e) =>
-              setOtp(e.target.value.replace(/\D/g, ""))
-            }
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
             placeholder="Enter 6-digit OTP"
             required
             className="w-full mt-8 mb-7 py-3 px-5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-center text-xl font-semibold rounded-xl outline-none focus:border-blue-500"

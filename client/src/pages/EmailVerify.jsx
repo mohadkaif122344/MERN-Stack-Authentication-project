@@ -41,14 +41,13 @@ const EmailVerify = () => {
       const { data } = await axios.post(
         backendUrl + "/api/auth/verify-account",
         { otp },
-        { withCredentials: true }
+        { withCredentials: true },
       );
-        toast.success(data.message);
-        await getUserData();
-        navigate("/");
+      toast.success(data.message);
+      await getUserData();
+      navigate("/");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
@@ -97,9 +96,7 @@ const EmailVerify = () => {
                 maxLength={1}
                 required
                 value={otp[index] || ""}
-                onChange={(e) =>
-                  handleOtpChange(e.target.value, index)
-                }
+                onChange={(e) => handleOtpChange(e.target.value, index)}
                 className="w-11 h-12 sm:w-12 sm:h-14 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-xl text-center font-semibold rounded-lg outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
               />
             ))}

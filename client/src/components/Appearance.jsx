@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { FaSun, FaMoon, FaChevronDown } from "react-icons/fa";
