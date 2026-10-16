@@ -42,7 +42,6 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-
   useEffect(() => {
     if (backendUrl) getAuthState();
   }, [backendUrl]);

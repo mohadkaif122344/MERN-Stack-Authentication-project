@@ -29,7 +29,7 @@ export const sendWelcomeEmail = async (email) => {
       </div>
     `,
   };
- await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions);
 };
 
 // Verify OTP Email

@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AppContext } from "../context/AppContext";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash,FaUserPlus } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaUserPlus,
+} from "react-icons/fa";
 
 const Signup = () => {
   const { backendUrl } = useContext(AppContext);
@@ -35,12 +42,14 @@ const Signup = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8 dark:bg-gray-950">
-     <div className="w-full max-w-md overflow-hidden rounded-3xl border bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900 mt-12">
+      <div className="w-full max-w-md overflow-hidden rounded-3xl border bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900 mt-12">
         <div className="px-5 pt-7 pb-5 sm:px-8 sm:pt-9">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
             Create your account
           </h1>
-          <p className="mt-2 text-sm text-gray-500 dark:text-white">Sign up to get started.</p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-white">
+            Sign up to get started.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 px-5 pb-7 sm:px-8">

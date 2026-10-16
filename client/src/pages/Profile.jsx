@@ -59,7 +59,6 @@ const Profile = () => {
   const handleRemoveImage = async () => {
     try {
       setLoading(true);
-
       const { data } = await axios.post(
         `${backendUrl}/api/auth/profile-image/${userData._id}`,
         { action: "remove" },
@@ -99,8 +98,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-10 mt-8 dark:bg-gray-950">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-10 dark:bg-gray-950">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900 mt-8">
         <div className="relative h-24 bg-purple-800">
           <div className="absolute left-1/2 top-12 -translate-x-1/2">
             <div className="relative h-24 w-24 rounded-full bg-white p-1 shadow-lg dark:bg-gray-800">

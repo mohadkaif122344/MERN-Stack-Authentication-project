@@ -32,10 +32,10 @@ const Navbar = () => {
         {},
         { withCredentials: true },
       );
-        setIsLoggedin(false);
-        setUserData(null);
-        toast.success(data.message);
-        navigate("/");
+      setIsLoggedin(false);
+      setUserData(null);
+      toast.success(data.message);
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message);
     }

@@ -28,8 +28,8 @@ const SendVerifyEmailOtp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-purple-50 via-white to-indigo-100 dark:from-gray-950 dark:to-gray-900 mt-8">
-      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-purple-50 via-white to-indigo-100 dark:from-gray-950 dark:to-gray-900 ">
+      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900 mt-10">
 
         <div className="relative h-24 bg-purple-700 ">
           <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">

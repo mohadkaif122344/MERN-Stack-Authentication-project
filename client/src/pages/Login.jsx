@@ -99,7 +99,6 @@ const Login = () => {
                 Forgot password?
               </Link>
             </div>
-
             <button
               disabled={loading}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-purple-600 py-3.5 font-semibold text-white hover:bg-purple-700 disabled:opacity-60"

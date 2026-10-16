@@ -13,13 +13,12 @@ const DeleteAccount = () => {
   const DeleteUser = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.delete(
-        `${backendUrl}/api/auth/deleteUser`,
-        { withCredentials: true }
-      );
-        toast.success(data.message);
-        setIsLoggedin(false);
-        navigate("/login");
+      const { data } = await axios.delete(`${backendUrl}/api/auth/deleteUser`, {
+        withCredentials: true,
+      });
+      toast.success(data.message);
+      setIsLoggedin(false);
+      navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message);
     } finally {

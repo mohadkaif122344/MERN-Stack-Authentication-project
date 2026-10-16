@@ -24,7 +24,7 @@ authRouter.post("/login", login);
 
 authRouter.post("/logout", logout);
 
-authRouter.post("/send-forgot-otp", sendForgotOtp)
+authRouter.post("/send-forgot-otp", sendForgotOtp);
 
 authRouter.post("/forgot-password", forgotPassword);
 
@@ -34,10 +34,14 @@ authRouter.post("/send-verify-otp", useAuthMiddleware, sendVerifyOtp);
 
 authRouter.post("/verify-account", useAuthMiddleware, verifyEmail);
 
-
 authRouter.post("/change-password", useAuthMiddleware, changePassword);
 
-authRouter.post("/profile-image/:id", useAuthMiddleware,upload.single("image"),manageImage);
+authRouter.post(
+  "/profile-image/:id",
+  useAuthMiddleware,
+  upload.single("image"),
+  manageImage,
+);
 
 authRouter.put("/update-profile/:id", useAuthMiddleware, updateProfile);
 

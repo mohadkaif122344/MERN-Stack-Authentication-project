@@ -2,9 +2,11 @@ import userModel from "../module/userModel.js";
 
 export const getUserData = async (req, res) => {
   try {
-    const user = await userModel.findById(req.userId).select(
-      "-password -verifyOtp -verifyOtpExpireAt -resetOtp -resetOtpExpireAt"
-    );
+    const user = await userModel
+      .findById(req.userId)
+      .select(
+        "-password -verifyOtp -verifyOtpExpireAt -resetOtp -resetOtpExpireAt",
+      );
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -23,8 +25,6 @@ export const getUserData = async (req, res) => {
     });
   }
 };
-
-
 
 export const isAuthenticated = async (req, res) => {
   res.status(200).json({

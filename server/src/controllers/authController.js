@@ -8,7 +8,6 @@ import {
 } from "../services/emailService.js";
 import cloudinary from "../config/cloudinary.js";
 
-
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -32,16 +31,13 @@ export const register = async (req, res) => {
       password: hashPassword,
     });
     await user.save();
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite:
-        process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     sendWelcomeEmail(email);
@@ -56,9 +52,6 @@ export const register = async (req, res) => {
     });
   }
 };
-
-
-
 
 export const login = async (req, res) => {
   try {
@@ -76,26 +69,20 @@ export const login = async (req, res) => {
         message: "Invalid email or password",
       });
     }
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
       });
     }
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite:
-        process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.status(200).json({
@@ -109,8 +96,6 @@ export const login = async (req, res) => {
     });
   }
 };
-
-
 
 export const logout = async (_, res) => {
   try {
@@ -130,7 +115,6 @@ export const logout = async (_, res) => {
     });
   }
 };
-
 
 export const deleteUser = async (req, res) => {
   try {
@@ -153,7 +137,6 @@ export const deleteUser = async (req, res) => {
     });
   }
 };
-
 
 export const sendVerifyOtp = async (req, res) => {
   try {
@@ -184,7 +167,6 @@ export const sendVerifyOtp = async (req, res) => {
   }
 };
 
-
 export const verifyEmail = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -195,11 +177,7 @@ export const verifyEmail = async (req, res) => {
         message: "User not found",
       });
     }
-    if (
-      !otp ||
-      user.verifyOtp !== otp ||
-      user.verifyOtpExpireAt < Date.now()
-    ) {
+    if (!otp || user.verifyOtp !== otp || user.verifyOtpExpireAt < Date.now()) {
       return res.status(400).json({
         success: false,
         message: "Invalid or expired OTP",
@@ -221,7 +199,6 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-
 export const sendForgotOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -242,8 +219,6 @@ export const sendForgotOtp = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
 
 export const forgotPassword = async (req, res) => {
   try {
@@ -290,9 +265,6 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-
-
-
 export const changePassword = async (req, res) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
 
@@ -331,10 +303,7 @@ export const changePassword = async (req, res) => {
         message: "Password not found",
       });
     }
-    const isCorrect = await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
+    const isCorrect = await bcrypt.compare(currentPassword, user.password);
     if (!isCorrect) {
       return res.status(400).json({
         success: false,
@@ -356,9 +325,6 @@ export const changePassword = async (req, res) => {
   }
 };
 
-
-
-
 export const manageImage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -371,9 +337,7 @@ export const manageImage = async (req, res) => {
     }
     if (req.body?.action === "remove") {
       if (user.removeImagePublicId) {
-        await cloudinary.uploader.destroy(
-          user.removeImagePublicId
-        );
+        await cloudinary.uploader.destroy(user.removeImagePublicId);
       }
       user.profileImage = "";
       user.removeImagePublicId = "";
@@ -389,20 +353,18 @@ export const manageImage = async (req, res) => {
         message: "Please select an image",
       });
     }
-const result = await new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         { folder: "profile-images" },
         (error, uploadedResult) => {
           if (error) return reject(error);
           resolve(uploadedResult);
-        }
+        },
       );
       stream.end(req.file.buffer);
     });
     if (user.removeImagePublicId) {
-      await cloudinary.uploader.destroy(
-        user.removeImagePublicId
-      );
+      await cloudinary.uploader.destroy(user.removeImagePublicId);
     }
     user.profileImage = result.secure_url;
     user.removeImagePublicId = result.public_id;
@@ -420,7 +382,6 @@ const result = await new Promise((resolve, reject) => {
     });
   }
 };
-
 
 export const updateProfile = async (req, res) => {
   try {

@@ -22,7 +22,7 @@ app.use(
       "https://mern-stack-authentication-project.vercel.app",
     ],
     credentials: true,
-  })
+  }),
 );
 
 app.get("/", (_, res) => {
