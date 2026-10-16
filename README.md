@@ -5,7 +5,7 @@ It provides user registration, login, logout, and JWT-based authentication.
 Users can verify their email, reset or change their password, and manage their accounts securely.
 Authentication is handled using secure cookies and protected API routes.
 
-## Live Link : 
+## Live Link : | https://mern-stack-authentication-project.vercel.app |
 
 <img width="1916" height="863" alt="Screenshot 2026-10-17 011526" src="https://github.com/user-attachments/assets/95dd4752-5529-40b6-95b9-5a5862e2fe62" />
 
