@@ -49,7 +49,7 @@ export const sendVerifyOtpEmail = async (email, name, otp) => {
 };
 
 //Password reset OTP
-export const sendResetOtpEmail = async (email, otp) => {
+export const sendForgotPasswordOtpEmail = async (email, otp) => {
   await transporter.sendMail({
     from: process.env.SENDER_EMAIL,
     to: email,

@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import connectDB from "./src/config/db.js";
 import authRouter from "./src/routes/authRoutes.js";
 import userRouter from "./src/routes/userRoutes.js";
-import UpdateRouter from "./src/routes/UserPutRoutes.js";
 
 const app = express();
 
@@ -32,7 +31,6 @@ app.get("/", (_, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/api/put", UpdateRouter);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

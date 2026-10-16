@@ -12,16 +12,13 @@ export const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const [notifications, setNotifications] = useState([]);
 
   const getAuthState = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/is-auth`);
-
       if (data.success) {
         setIsLoggedin(true);
         getUserData();
-        getNotifications();
       } else {
         setIsLoggedin(false);
       }
@@ -35,28 +32,16 @@ export const AppContextProvider = ({ children }) => {
   const getUserData = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/data`);
-
       if (data.success) {
         setUserData(data.userData);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
-  const getNotifications = async () => {
-    try {
-      const { data } = await axios.get(`${backendUrl}/api/user/notifications`);
-
-      if (data.success) {
-        setNotifications(data.notifications);
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
 
   useEffect(() => {
     if (backendUrl) getAuthState();
@@ -72,8 +57,6 @@ export const AppContextProvider = ({ children }) => {
         userData,
         setUserData,
         getUserData,
-        notifications,
-        getNotifications,
       }}
     >
       {children}

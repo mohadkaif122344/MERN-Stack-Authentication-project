@@ -1,145 +1,211 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { assets } from "../assets/assets";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Appearance from "./Appearance";
+import {
+  FaHome,
+  FaInfoCircle,
+  FaStar,
+  FaEnvelope,
+  FaUser,
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaShieldAlt,
+  FaTrashAlt,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
+import { FaEnvelopeCircleCheck } from "react-icons/fa6";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [menu, setMenu] = useState(false);
   const { userData, backendUrl, setUserData, setIsLoggedin } =
     useContext(AppContext);
 
   const logout = async () => {
     try {
       const { data } = await axios.post(
-        backendUrl + "/api/auth/logout",
+        `${backendUrl}/api/auth/logout`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
-      if (data.success) {
         setIsLoggedin(false);
         setUserData(null);
+        toast.success(data.message);
         navigate("/");
-      }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
   return (
-    <div className="w-full absolute top-0 z-50 px-4 sm:px-8 lg:px-16 py-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl border border-white/50 dark:border-gray-700 shadow-lg rounded-2xl px-4 sm:px-6 py-3">
+    <nav className="absolute top-0 z-50 w-full px-2 py-3 sm:px-4 lg:px-16">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-2 rounded-2xl border border-white/50 bg-white/80 px-3 py-3 shadow-lg backdrop-blur-xl dark:border-gray-700 dark:bg-gray-900/90 sm:px-6 md:grid-cols-[1fr_auto_1fr]">
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="shrink-0 cursor-pointer text-left"
+        >
+          <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-base font-bold text-transparent sm:text-lg">
+            MyApp
+          </h1>
+          <p className="hidden text-[10px] text-gray-400 sm:block">
+            Simple & Secure
+          </p>
+        </button>
 
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
-            <img src={assets.logo} className="w-7 h-7 brightness-0 invert" />
-          </div>
-
-          <div className="hidden sm:block">
-            <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              MyApp
-            </h1>
-            <p className="text-[10px] text-gray-400 dark:text-gray-500 -mt-1">
-              Simple & Secure
-            </p>
-          </div>
-        </Link>
-  <ul className="hidden md:flex gap-1 bg-gray-50 dark:bg-gray-800 rounded-xl p-1 font-bold">
-  <li  className="px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 hover:text-blue-600 transition">
-    Home
-  </li>
-  <li  className="px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 hover:text-blue-600 transition">
-    About
-  </li>
-  <li  className="px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 hover:text-blue-600 transition">
-    Features
-  </li>
-  <li className="px-4 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 hover:text-blue-600 transition">
-    Contact
-  </li>
-</ul>
-
-        {userData ? (
-          <div className="relative group">
-            <button className="flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 p-1 pr-3 text-white shadow-md hover:scale-105 transition">
-              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center overflow-hidden text-blue-600 font-bold">
-                {userData?.profileImage  ? (
-                  <img src={userData.profileImage } className="w-full h-full object-cover" />
-                ) : (
-                  userData?.name?.[0]?.toUpperCase() || "U"
-                )}
-              </div>
-              <span className="hidden sm:block text-sm font-semibold max-w-20 truncate">
-                {userData?.name}
-              </span>
-              ▼
+        <ul className="hidden items-center justify-center gap-1 rounded-xl bg-gray-50 p-1 font-bold dark:bg-gray-800 md:flex">
+          <li>
+            <button className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-700 hover:bg-white hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-700 lg:px-3">
+              <FaHome /> Home
             </button>
+          </li>
+          <li>
+            <button className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-700 hover:bg-white hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-700 lg:px-3">
+              <FaInfoCircle /> About
+            </button>
+          </li>
+          <li>
+            <button className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-700 hover:bg-white hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-700 lg:px-3">
+              <FaStar /> Features
+            </button>
+          </li>
+          <li>
+            <button className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-700 hover:bg-white hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-700 lg:px-3">
+              <FaEnvelope /> Contact
+            </button>
+          </li>
+        </ul>
 
-            <div className="absolute right-0 top-12 hidden group-hover:block w-60 pt-3">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-
-                <div className="px-4 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                  <p className="font-semibold">{userData?.name}</p>
-                  <p className="text-xs opacity-80 truncate">{userData?.email}</p>
+        <div className="flex shrink-0 items-center justify-end gap-2 md:col-start-3">
+          {userData ? (
+            <div className="group relative">
+              <button
+                type="button"
+                aria-label="Open profile menu"
+                className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 p-1 text-white shadow-md"
+              >
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white font-bold text-blue-600 sm:h-10 sm:w-10">
+                  {userData.profileImage ? (
+                    <img
+                      src={userData.profileImage}
+                      alt="Profile"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    userData.name?.charAt(0)?.toUpperCase() || <FaUser />
+                  )}
                 </div>
-                <Link
-                  to="/profile"
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800"
-                >
-                  Profile
-                </Link>
-                <div className="border-t border-gray-200 dark:border-gray-700">
-                  <p className="px-4 pt-3 pb-2 text-xs font-semibold text-gray-400 uppercase">
-                    Settings
-                  </p>
-                  <Link
-                    to="/settings/email-verification"
-                    className="block px-4 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800"
-                  >
-                    Email Verification
-                  </Link>
-                  <Link
-                    to="/settings/security/change-password"
-                    className="block px-4 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800"
-                  >
-                    Security
-                  </Link>
-                  <Link
-                    to="/settings/notifications"
-                    className="block px-4 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800"
-                  >Notifications
-                  </Link>
-                  <Appearance />
+              </button>
 
-                  <Link
-                    to="/settings/delete-account"
-                    className="block px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+              <div className="invisible absolute right-0 top-full z-50 w-[min(15rem,calc(100vw-1rem))] pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100">
+                <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-900">
+                  <div className="bg-purple-700 px-4 py-4 text-white">
+                    <p className="font-semibold">{userData.name}</p>
+                    <p className="break-all text-xs">{userData.email}</p>
+                  </div>
+
+                  <button
+                    onClick={() => navigate("/profile")}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-blue-50 dark:text-gray-300 dark:hover:bg-gray-800"
                   >
-                    Delete Account
-                  </Link>
+                    <FaUser /> Profile
+                  </button>
+
+                  <div className="border-t dark:border-gray-700">
+                    <p className="px-4 pb-2 pt-3 text-xs font-semibold text-gray-400">
+                      SETTINGS
+                    </p>
+
+                    <button
+                      onClick={() => navigate("/settings/email-verification")}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-blue-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                    >
+                      <FaEnvelopeCircleCheck className="" />
+                      Verify Email
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigate("/settings/security/change-password")
+                      }
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-blue-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                    >
+                      <FaShieldAlt /> Security
+                    </button>
+
+                    <Appearance />
+
+                    <button
+                      onClick={() => navigate("/settings/delete-account")}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left text-red-600 hover:bg-red-50 dark:hover:bg-gray-800"
+                    >
+                      <FaTrashAlt /> Delete Account
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={logout}
+                    className="flex w-full items-center gap-3 border-t px-4 py-3 text-left hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                  >
+                    <FaSignOutAlt /> Logout
+                  </button>
                 </div>
-                <button
-                  onClick={logout}
-                  className="w-full text-left px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border-t border-gray-200 dark:border-gray-700"
-                >
-                  🚪 Logout
-                </button>
               </div>
             </div>
-          </div>
-        ) : (
+          ) : (
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-purple-700 px-3 py-2 text-sm font-semibold text-white shadow-lg sm:px-5"
+            >
+              <FaSignInAlt className="shrink-0" />
+              <span>Login</span>
+            </button>
+          )}
+
           <button
-            onClick={() => navigate("/login")}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-lg hover:scale-105 transition"
+            type="button"
+            onClick={() => setMenu(!menu)}
+            aria-label="Toggle navigation"
+            className="rounded-lg p-2 text-lg text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 md:hidden"
           >
-            Login
-            <img src={assets.arrow_icon} className="w-4 brightness-0 invert" />
+            {menu ? <FaTimes /> : <FaBars />}
           </button>
+        </div>
+
+        {menu && (
+          <div className="absolute left-2 right-2 top-full z-50 mt-2 rounded-xl border border-gray-200 bg-white p-2 shadow-xl dark:border-gray-700 dark:bg-gray-900 md:hidden">
+            <button
+              onClick={() => setMenu(false)}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <FaHome /> Home
+            </button>
+            <button
+              onClick={() => setMenu(false)}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <FaInfoCircle /> About
+            </button>
+            <button
+              onClick={() => setMenu(false)}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <FaStar /> Features
+            </button>
+            <button
+              onClick={() => setMenu(false)}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <FaEnvelope /> Contact
+            </button>
+          </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

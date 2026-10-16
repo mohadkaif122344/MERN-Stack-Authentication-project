@@ -1,210 +1,189 @@
-import { useState, useRef, useContext } from "react";
-import { assets } from "../assets/assets";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  FaEnvelope,
+  FaLock,
+  FaKey,
+  FaArrowLeft,
+  FaPaperPlane,
+} from "react-icons/fa";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [isEmailSent, setIsEmailSent] = useState(false);
   const [otp, setOtp] = useState("");
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const [isOtpSubmit, setIsOtpSubmit] = useState(false);
 
   const { backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
-  const inputRefs = useRef([]);
-
-  axios.defaults.withCredentials = true;
-
-  const handleInput = (e, i) => {
-    if (e.target.value && i < 5) inputRefs.current[i + 1]?.focus();
-  };
-
-  const handleKeyDown = (e, i) => {
-    if (e.key === "Backspace" && !e.target.value && i > 0)
-      inputRefs.current[i - 1]?.focus();
-  };
-
-  const handlePaste = (e) => {
-    e.clipboardData
-      .getData("text")
-      .split("")
-      .forEach((char, i) => {
-        if (inputRefs.current[i]) inputRefs.current[i].value = char;
-      });
-  };
 
   const onSubmitEmail = async (e) => {
     e.preventDefault();
-
     try {
       const { data } = await axios.post(
-        backendUrl + "/api/auth/send-forgot-otp",
+        `${backendUrl}/api/auth/send-forgot-otp`,
         { email },
+        { withCredentials: true }
       );
-
-      if (data.success) {
-        toast.success(data.message);
-        setIsEmailSent(true);
-      } else {
-        toast.error(data.message);
-      }
+      toast.success(data.message);
+      setIsEmailSent(true);
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
   const onSubmitOTP = (e) => {
     e.preventDefault();
-
-    setOtp(inputRefs.current.map((e) => e?.value || "").join(""));
-
+    if (otp.length !== 6) {
+      return;
+    }
     setIsOtpSubmit(true);
   };
 
   const onSubmitNewPassword = async (e) => {
     e.preventDefault();
-
     try {
       const { data } = await axios.post(
-        backendUrl + "/api/auth/forgot-password",
+        `${backendUrl}/api/auth/forgot-password`,
         { email, otp, newPassword },
+        { withCredentials: true }
       );
-
-      if (data.success) {
-        toast.success(data.message);
-        navigate("/login");
-      } else {
-        toast.error(data.message);
-      }
+      toast.success(data.message);
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-gradient-to-br">
-      <Link to="/" className="absolute left-5 sm:left-20 top-5 flex gap-2">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
-          <img src={assets.logo} className="w-7 h-7 brightness-0 invert" />
-        </div>
-        <div className="hidden sm:block">
-          <b className="text-lg text-blue-600">MyApp</b>
-          <p className="text-[10px] text-gray-400">Simple & Secure</p>
-        </div>
-      </Link>
+    <div className="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden bg-gradient-to-br dark:from-gray-950 dark:to-gray-900">
+
       {!isEmailSent && (
         <form
           onSubmit={onSubmitEmail}
-          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 border border-gray-200 shadow-2xl"
+          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl"
         >
-          <h1 className="text-gray-900 text-2xl font-bold text-center">
-            Reset Password
+          <h1 className="text-gray-900 dark:text-white text-2xl font-bold text-center">
+            <FaLock className="inline mr-2" /> Forgot Password
           </h1>
-          <p className="text-center mt-3 mb-7 text-gray-500 text-sm">
+
+          <p className="text-center mt-3 mb-7 text-gray-500 dark:text-gray-400 text-sm">
             Enter your registered email address
           </p>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-100 border border-gray-200">
-            <img src={assets.mail_icon} className="w-4 h-4 opacity-70" />
+
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <FaEnvelope className="text-gray-500 dark:text-gray-400" />
+
             <input
               type="email"
               placeholder="Email id"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-transparent outline-none text-gray-900 placeholder-gray-400"
+              className="w-full bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
-          <button className="w-full py-3 mt-7 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold">
-            Submit
+
+          <button className="w-full py-3 mt-7 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+            <FaPaperPlane className="inline mr-2" /> Submit
           </button>
+
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 text-gray-600 hover:bg-gray-100"
+            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            ← Back
+            <FaArrowLeft className="inline mr-2" /> Back
           </button>
         </form>
       )}
-      {!isOtpSubmit && isEmailSent && (
+
+      {isEmailSent && !isOtpSubmit && (
         <form
           onSubmit={onSubmitOTP}
-          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 border border-gray-200 shadow-2xl"
+          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl"
         >
-          <h1 className="text-gray-900 text-2xl font-bold text-center">
-            Forgot Password OTP
+          <h1 className="text-gray-900 dark:text-white text-2xl font-bold text-center">
+            <FaKey className="inline mr-2" /> Forgot Password OTP
           </h1>
-          <p className="text-center text-gray-500 mt-3 text-sm">
-            Sent a 6-digit verification code to your email id.
+
+          <p className="text-center text-gray-500 dark:text-gray-400 mt-3 text-sm">
+            Enter the 6-digit verification code sent to your email.
           </p>
-          <p className="text-center text-blue-600 font-semibold mt-2 break-all">
+
+          <p className="text-center text-purple-600 dark:text-purple-400 font-semibold mt-2 break-all">
+            <FaEnvelope className="inline mr-2 text-black dark:text-gray-300" />{" "}
             {email}
           </p>
-          <div
-            onPaste={handlePaste}
-            className="flex justify-center gap-2 mt-8 mb-7"
-          >
-            {Array(6)
-              .fill(0)
-              .map((_, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  maxLength="1"
-                  required
-                  ref={(e) => (inputRefs.current[i] = e)}
-                  onInput={(e) => handleInput(e, i)}
-                  onKeyDown={(e) => handleKeyDown(e, i)}
-                  className="w-10 h-12 sm:w-12 sm:h-14 bg-gray-100 border border-gray-200 text-gray-900 text-xl text-center font-semibold rounded-xl outline-none focus:border-blue-500"
-                />
-              ))}
-          </div>
-          <button className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold">
-            Submit
+
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            value={otp}
+            onChange={(e) =>
+              setOtp(e.target.value.replace(/\D/g, ""))
+            }
+            placeholder="Enter 6-digit OTP"
+            required
+            className="w-full mt-8 mb-7 py-3 px-5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-center text-xl font-semibold rounded-xl outline-none focus:border-blue-500"
+          />
+
+          <button className="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+            <FaKey className="inline mr-2" /> Submit
           </button>
+
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 text-gray-600 hover:bg-gray-100"
+            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            ← Back
+            <FaArrowLeft className="inline mr-2" /> Back
           </button>
         </form>
       )}
+
       {isOtpSubmit && isEmailSent && (
         <form
           onSubmit={onSubmitNewPassword}
-          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 border border-gray-200 shadow-2xl"
+          className="w-full max-w-md p-7 sm:p-9 rounded-3xl bg-white/90 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl"
         >
-          <h1 className="text-gray-900 text-2xl font-bold text-center">
+          <h1 className="text-gray-900 dark:text-white text-2xl font-bold text-center">
+            <FaLock className="inline mr-2 text-purple-600 dark:text-purple-400" />{" "}
             New Password
           </h1>
-          <p className="text-center mt-3 mb-7 text-gray-500 text-sm">
-            Enter the new password below
+
+          <p className="text-center mt-3 mb-7 text-gray-500 dark:text-gray-400 text-sm">
+            Enter your new password below
           </p>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-100 border border-gray-200">
-            <img src={assets.lock_icon} className="w-4 h-4 opacity-70" />
+
+          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <FaLock className="text-gray-500 dark:text-gray-400" />
+
             <input
               type="password"
-              placeholder="Password"
+              placeholder="New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
-              className="w-full bg-transparent outline-none text-gray-900 placeholder-gray-400"
+              className="w-full bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
-          <button className="w-full py-3 mt-7 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold">
-            Submit
+
+          <button className="w-full py-3 mt-7 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+            <FaPaperPlane className="inline mr-2" /> Submit
           </button>
+
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 text-gray-600 hover:bg-gray-100"
+            className="w-full mt-3 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            ← Back
+            <FaArrowLeft className="inline mr-2" /> Back
           </button>
         </form>
       )}
@@ -213,4 +192,3 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-

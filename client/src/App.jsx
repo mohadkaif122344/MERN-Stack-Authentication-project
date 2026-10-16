@@ -9,17 +9,20 @@ import DeleteAccount from "./pages/DeleteAccount";
 import SendVerifyEmailOtp from "./pages/SendVerifyEmailOtp";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
-import Notifications from "./pages/Notifications";
 import Footer from "./pages/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
+import Navbar from "./components/Navbar";
+import Signup from "./pages/Signup";
 
 const App = () => {
-   const { isLoggedin } = useContext(AppContext);
+  const { isLoggedin } = useContext(AppContext);
   return (
     <div>
       <ToastContainer />
+
+      <Navbar />
 
       <Routes>
         <Route
@@ -32,6 +35,7 @@ const App = () => {
         />
 
         <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<Signup />} />
 
         <Route
           path="/email-verify"
@@ -79,18 +83,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
-        <Route
-          path="/settings/notifications"
-          element={
-            <ProtectedRoute>
-              <Notifications />
-            </ProtectedRoute>
-          }
-        />
       </Routes>
 
-     {isLoggedin && <Footer />}
+      {isLoggedin && <Footer />}
     </div>
   );
 };
