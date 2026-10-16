@@ -5,6 +5,20 @@ It provides user registration, login, logout, and JWT-based authentication.
 Users can verify their email, reset or change their password, and manage their accounts securely.
 Authentication is handled using secure cookies and protected API routes.
 
+## Live Link : 
+
+<img width="1916" height="863" alt="Screenshot 2026-10-17 011526" src="https://github.com/user-attachments/assets/95dd4752-5529-40b6-95b9-5a5862e2fe62" />
+
+<img width="1893" height="835" alt="Screenshot 2026-10-17 012434" src="https://github.com/user-attachments/assets/0f0b5349-d3f3-4599-823d-a0916f786968" />
+
+<img width="1905" height="831" alt="Screenshot 2026-10-17 013039" src="https://github.com/user-attachments/assets/a7d56bf1-e231-434d-ab22-baa6cae75eba" />
+
+<img width="1906" height="831" alt="Screenshot 2026-10-17 013049" src="https://github.com/user-attachments/assets/bfaf8a58-7650-4221-a1d0-34b47cb8a1a4" />
+
+<img width="1905" height="832" alt="Screenshot 2026-10-17 013159" src="https://github.com/user-attachments/assets/f36ad2fb-5cea-40b0-b4db-2f65db158370" />
+
+<img width="1905" height="833" alt="Screenshot 2026-10-17 013241" src="https://github.com/user-attachments/assets/dbebc005-aaa6-45b8-8232-a2136358b987" />
+
 ## Features
 
 - User Signup and Login
